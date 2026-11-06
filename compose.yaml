@@ -1,0 +1,15 @@
+services:
+  qiban:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      DATABASE_PATH: /app/data/qiban.sqlite
+    ports:
+      - "127.0.0.1:4173:4173"
+    volumes:
+      - qiban-data:/app/data
+volumes:
+  qiban-data:

@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+.local
+artifacts
+data
+node_modules
+test
+_site
