@@ -6,6 +6,8 @@ import { randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'node:cry
 import { promisify } from 'node:util';
 import { Store, hash, petNames, localDay } from './store.mjs';
 import { AppError, createOpenAIProvider, makeInput, validateTurn } from './provider.mjs';
+import { createAliyunProvider } from './aliyun.mjs';
+import { BudgetLedger } from './budget.mjs';
 
 const scrypt = promisify(scryptCallback);
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -42,8 +44,14 @@ export function createApp(options = {}) {
   const publicOrigin = env.PUBLIC_ORIGIN ? new URL(env.PUBLIC_ORIGIN).origin : null;
   if (production && (!publicOrigin?.startsWith('https://') || !env.REGISTRATION_CODE)) throw new Error('Production requires HTTPS PUBLIC_ORIGIN and REGISTRATION_CODE.');
   const store = options.store || new Store(env.DATABASE_PATH || './data/qiban.sqlite');
-  const provider = options.provider || createOpenAIProvider({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL });
-  const aiReady = Boolean(options.provider || env.OPENAI_API_KEY && env.OPENAI_MODEL);
+  const providerName = env.AI_PROVIDER || 'openai';
+  if (!['openai', 'aliyun'].includes(providerName)) throw new Error('AI_PROVIDER must be openai or aliyun.');
+  const model = providerName === 'aliyun' ? env.DASHSCOPE_MODEL || 'qwen3.8-flash' : env.OPENAI_MODEL;
+  const budget = !options.provider && providerName === 'aliyun' ? new BudgetLedger(env.AI_BUDGET_PATH || './data/aliyun-budget.sqlite', { limitCny: Number(env.AI_BUDGET_CNY || 10), maxCalls: Number(env.AI_BUDGET_MAX_CALLS || 24) }) : null;
+  const provider = options.provider || (providerName === 'aliyun'
+    ? createAliyunProvider({ apiKey: env.DASHSCOPE_API_KEY, model, baseURL: env.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1', ledger: budget })
+    : createOpenAIProvider({ apiKey: env.OPENAI_API_KEY, model }));
+  const aiReady = Boolean(options.provider || (providerName === 'aliyun' ? env.DASHSCOPE_API_KEY : env.OPENAI_API_KEY) && model);
   const inFlight = new Set();
   const configuredLimit = (value, fallback) => Number.isInteger(Number(value)) && Number(value) > 0 ? Number(value) : fallback;
   const userLimit = configuredLimit(env.AI_USER_DAILY_LIMIT, 60), globalLimit = configuredLimit(env.AI_GLOBAL_DAILY_LIMIT, 300);
@@ -93,7 +101,7 @@ export function createApp(options = {}) {
         res.end(req.method === 'HEAD' ? undefined : body); return;
       }
       if (!['GET', 'HEAD'].includes(req.method)) verifyOrigin(req);
-      if (req.method === 'GET' && path === '/api/config') return send(res, 200, { backend: true, aiReady, model: env.OPENAI_MODEL || null, registrationRequiresCode: Boolean(env.REGISTRATION_CODE) });
+      if (req.method === 'GET' && path === '/api/config') return send(res, 200, { backend: true, aiReady, provider: providerName, model: model || null, registrationRequiresCode: Boolean(env.REGISTRATION_CODE) });
       if (req.method === 'GET' && path === '/api/session') return send(res, 200, { user: session(req) });
       if (req.method === 'POST' && ['/api/register', '/api/login'].includes(path)) {
         const body = await jsonBody(req), registration = path === '/api/register';
@@ -152,7 +160,7 @@ export function createApp(options = {}) {
           if (cached.fingerprint !== fingerprint) throw new AppError(409, '请求编号已被另一条消息使用。', 'REQUEST_ID_CONFLICT');
           return send(res, 200, { ...JSON.parse(cached.result), ...store.snapshot(user.id) });
         }
-        if (!aiReady) throw new AppError(503, '空间管理员还需要配置 OpenAI API Key 和模型。', 'AI_NOT_CONFIGURED');
+        if (!aiReady) throw new AppError(503, '空间管理员还需要配置所选模型服务的 API Key 和模型。', 'AI_NOT_CONFIGURED');
         if (inFlight.has(user.id)) throw new AppError(409, '伙伴正在回复另一条消息，请稍后再发。', 'CHAT_BUSY');
         inFlight.add(user.id);
         try {
@@ -185,13 +193,13 @@ export function createApp(options = {}) {
   server.headersTimeout = 10000;
   const interval = options.scheduler === false ? null : setInterval(() => { try { store.followups(); } catch { console.error('Qiban follow-up scan failed.'); } }, 60000);
   interval?.unref();
-  return { server, store, close: async () => { if (interval) clearInterval(interval); server.closeIdleConnections(); await new Promise(resolve => server.close(resolve)); store.close(); } };
+  return { server, store, budget, close: async () => { if (interval) clearInterval(interval); server.closeIdleConnections(); await new Promise(resolve => server.close(resolve)); store.close(); budget?.close(); } };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   process.umask(0o077);
   const app = createApp();
   const host = process.env.HOST || '127.0.0.1', port = Number(process.env.PORT || 4173);
-  app.server.listen(port, host, () => console.log(`Qiban: http://${host}:${port} · AI ${process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL ? 'configured' : 'not configured'}`));
+  app.server.listen(port, host, () => console.log(`Qiban: http://${host}:${port} · provider ${process.env.AI_PROVIDER || 'openai'}`));
   for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, async () => { await app.close(); process.exit(0); });
 }

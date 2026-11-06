@@ -1,0 +1,397 @@
+{
+  "date": "2026-11-07",
+  "startedAt": "2026-11-06T17:52:11.613Z",
+  "provider": "阿里云百炼",
+  "model": "qwen3.8-flash",
+  "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "budgetLimitCny": 10,
+  "data": "全部为合成测试数据；不包含真实用户资料",
+  "cases": [
+    {
+      "name": "账号创建与真实服务配置",
+      "category": "真实后端，无模型费用",
+      "status": "PASS",
+      "elapsedMs": 56,
+      "modelCalls": 0,
+      "evidence": {
+        "provider": "aliyun",
+        "emptyMemory": true
+      }
+    },
+    {
+      "name": "三款伙伴真实对话：糯米",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 1746,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "我叫糯米。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+      }
+    },
+    {
+      "name": "三款伙伴真实对话：星弥",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 1138,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "我叫星弥。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+      }
+    },
+    {
+      "name": "三款伙伴真实对话：曜",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 1178,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "我叫曜。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+      }
+    },
+    {
+      "name": "偏好提取与原文证据、确认后保存",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 3244,
+      "modelCalls": 1,
+      "evidence": {
+        "memories": [
+          {
+            "key": "reminder_tone_preference",
+            "content": "用户喜欢温柔风格的提醒，不喜欢强硬或责备式的督促。",
+            "quote": "喜欢温柔的提醒"
+          },
+          {
+            "key": "english_learning_daily_duration",
+            "content": "用户希望每天只用十分钟学习英语，追求轻量可持续的节奏。",
+            "quote": "我每天只想用十分钟学英语"
+          }
+        ]
+      }
+    },
+    {
+      "name": "换伙伴后的长期偏好召回",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 1185,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "你之前说过每天只想用十分钟学英语，并且喜欢温柔的提醒方式。这两点我都记得很清楚，不需要再重复确认啦。"
+      }
+    },
+    {
+      "name": "根据偏好生成可确认的目标计划",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 6648,
+      "modelCalls": 1,
+      "evidence": {
+        "plan": "三天轻量英语练习",
+        "steps": [
+          {
+            "id": "bcb8aeaa-54bf-4751-b0ed-e8c7b83a55f2",
+            "title": "第1天：耳朵热身",
+            "minutes": 8,
+            "dueDate": "2026-11-07",
+            "done": false
+          },
+          {
+            "id": "d9d60b1d-7946-4aad-ad27-623adb94a6f6",
+            "title": "第2天：开口模仿",
+            "minutes": 10,
+            "dueDate": "2026-11-08",
+            "done": false
+          },
+          {
+            "id": "1d97a1e7-6576-4d22-ab3f-a3db9adf4dab",
+            "title": "第3天：小小记录",
+            "minutes": 10,
+            "dueDate": "2026-11-09",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "服务重启、同账号第二会话恢复记忆与目标",
+      "category": "真实后端，无模型费用",
+      "status": "PASS",
+      "elapsedMs": 33,
+      "modelCalls": 0,
+      "evidence": {
+        "memoryCount": 2,
+        "goalCount": 1,
+        "separateSession": true
+      }
+    },
+    {
+      "name": "进度更新、AI 调整计划并保留已完成项",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 5,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "到期跟进、安静时段与当日去重",
+      "category": "真实后端，无模型费用",
+      "status": "PASS",
+      "elapsedMs": 2,
+      "modelCalls": 0,
+      "evidence": {
+        "mode": "程序模拟到期时钟，不是系统推送",
+        "text": "今天想陪你完成「第2天：开口模仿」，先留 10 分钟就好。如果今天不合适，我们也可以调整计划。",
+        "countAfterTwoScans": 1
+      }
+    },
+    {
+      "name": "偏好纠正使用相同记忆 key",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 2,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "临时对话调用真实 AI，但不写入对话或建议",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 1,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "不同账号的模型上下文隔离",
+      "category": "真实模型+后端",
+      "status": "PASS",
+      "elapsedMs": 1529,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "目前我这边没有关于你学习时长和提醒方式的记录。如果你之前在其他地方设置过，或者想现在开始建立这些习惯，可以告诉我你的偏好，我来帮你梳理成可执行的计划。"
+      }
+    },
+    {
+      "name": "手动记忆能被真实模型召回",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 5,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "忘记记忆后真实模型不再引用已删饮品偏好",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 3,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "同请求编号重放不增加模型费用或重复消息",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "429 RATE_LIMIT: 这段时间的使用次数已达到上限，请稍后再试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "视觉理解 API：识别合成红色图片",
+      "category": "真实模型能力探测",
+      "status": "PASS",
+      "elapsedMs": 1033,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "红色",
+        "fixture": "程序生成的 64×64 红色图片，不含摄像头画面",
+        "scope": "仅验证模型视觉 API；设备摄像头共享仍未接入"
+      }
+    },
+    {
+      "name": "导出与退出登录",
+      "category": "真实后端，无模型费用",
+      "status": "PASS",
+      "elapsedMs": 2,
+      "modelCalls": 0,
+      "evidence": {
+        "exportReadable": true,
+        "loggedOutSessionInvalid": true
+      }
+    },
+    {
+      "name": "真实设备摄像头授权与跨设备视频共享",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "现有产品只有交互演示，尚未实现真实连接；视觉 API 成功不代表摄像头共享已实现。",
+      "modelCalls": 0
+    },
+    {
+      "name": "真实麦克风、语音识别和语音合成",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "现有产品尚未接入语音 API，本次未产生语音服务调用。",
+      "modelCalls": 0
+    },
+    {
+      "name": "手机/浏览器系统推送",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "当前仅持久化站内跟进记录，未实现系统推送。",
+      "modelCalls": 0
+    },
+    {
+      "name": "四端原生安装包与系统级悬浮桌宠",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "当前为浏览器应用，未生成原生安装包。",
+      "modelCalls": 0
+    },
+    {
+      "name": "公网真实后端部署",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "后端部署位置尚未确定；GitHub Pages 不能运行该后端。",
+      "modelCalls": 0
+    }
+  ],
+  "finishedAt": "2026-11-06T17:52:29.433Z",
+  "budget": {
+    "limitCny": 10,
+    "maxCalls": 24,
+    "attempts": 10,
+    "reservedCny": 2.5,
+    "conservativeEstimatedCny": 0.013213,
+    "beijingListPriceEstimateCny": 0.005918700000000001,
+    "inputTokens": 4344,
+    "outputTokens": 905,
+    "calls": [
+      {
+        "id": "45d27d00-4c7c-4c2a-8ade-7b5a590930c7",
+        "created": "2026-11-06T17:47:33.215Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 29,
+        "output_tokens": 1,
+        "request_id": "chatcmpl-c97c0144-0e69-981e-bc6d-9e7f4d4ff679",
+        "estimated_micros": 63,
+        "error_code": ""
+      },
+      {
+        "id": "6ce81341-56d6-4129-a693-8ed9f8c28d12",
+        "created": "2026-11-06T17:51:09.449Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-e83d0ac4-3aa2-99ee-a915-caee731db520",
+        "estimated_micros": 212,
+        "error_code": ""
+      },
+      {
+        "id": "83321303-f62d-464b-9d72-fb4fc4f35654",
+        "created": "2026-11-06T17:52:11.679Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 431,
+        "output_tokens": 38,
+        "request_id": "chatcmpl-cc31e9be-408f-9ba4-bf54-881fddf6a200",
+        "estimated_micros": 1052,
+        "error_code": ""
+      },
+      {
+        "id": "d1f7df3b-a7c9-4210-bce2-89cd1ab5586a",
+        "created": "2026-11-06T17:52:13.424Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 490,
+        "output_tokens": 50,
+        "request_id": "chatcmpl-b93c8040-e61a-9b69-89da-c15646d92722",
+        "estimated_micros": 1230,
+        "error_code": ""
+      },
+      {
+        "id": "f44a8763-68e7-4de3-bdfa-8e120c3da16d",
+        "created": "2026-11-06T17:52:14.563Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 552,
+        "output_tokens": 49,
+        "request_id": "chatcmpl-5cc142e0-7bf9-9c73-8af5-8f6e4fb83ca0",
+        "estimated_micros": 1349,
+        "error_code": ""
+      },
+      {
+        "id": "0675b85c-9ff0-42df-bcbc-ae383842559a",
+        "created": "2026-11-06T17:52:15.741Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 606,
+        "output_tokens": 179,
+        "request_id": "chatcmpl-b3ee860f-e62f-9557-b6d0-2bed989e6f95",
+        "estimated_micros": 2107,
+        "error_code": ""
+      },
+      {
+        "id": "ccd108f5-1b39-4233-8c8e-e13509b75c4f",
+        "created": "2026-11-06T17:52:18.985Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 765,
+        "output_tokens": 53,
+        "request_id": "chatcmpl-2a45c22e-8365-9c38-9f51-158cb4382a7a",
+        "estimated_micros": 1795,
+        "error_code": ""
+      },
+      {
+        "id": "7f3e3b0c-c7ac-4b71-96e2-9fa7a2bcd886",
+        "created": "2026-11-06T17:52:20.170Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 840,
+        "output_tokens": 468,
+        "request_id": "chatcmpl-8b15deda-eddd-9103-82ab-2eb482d8dd31",
+        "estimated_micros": 4020,
+        "error_code": ""
+      },
+      {
+        "id": "3c2ab425-9378-46dc-bb5a-44202d88340a",
+        "created": "2026-11-06T17:52:26.861Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 429,
+        "output_tokens": 63,
+        "request_id": "chatcmpl-e281cfd9-29b1-9d05-aab4-8c0829eb8256",
+        "estimated_micros": 1173,
+        "error_code": ""
+      },
+      {
+        "id": "96c3f02d-bfe2-4c29-8d28-c0e7a48c0d7f",
+        "created": "2026-11-06T17:52:28.398Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-435b8c51-f4ac-99a7-b2d2-f12f810df51d",
+        "estimated_micros": 212,
+        "error_code": ""
+      }
+    ]
+  },
+  "summary": {
+    "PASS": 12,
+    "FAIL": 0,
+    "BLOCKED": 6,
+    "NOT_IMPLEMENTED": 5
+  },
+  "scopeNote": "首次完整联调：12项通过，6项被应用每用户每分钟6次的保护机制拦截（429）。被拦截的请求没有发到模型；后续只补测这6项。",
+  "rawSummary": {
+    "PASS": 12,
+    "FAIL": 6,
+    "NOT_IMPLEMENTED": 5
+  }
+}

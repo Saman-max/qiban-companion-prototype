@@ -86,6 +86,7 @@ function applyCloudSpace(space, { keepMessages = false } = {}) {
   Cloud.lastSaved = JSON.stringify(Cloud.payload());
   Cloud.dirty = false;
 }
+function providerLabel() { return Cloud.config?.provider === 'aliyun' ? '阿里云百炼' : 'OpenAI'; }
 function updateCloudHeader() {
   const label = $('#cloud-button');
   if (!label) return;
@@ -112,7 +113,7 @@ function openCloudAuth(register = false) {
       <p class="form-error" id="auth-error" role="alert"></p>
       <div class="modal-actions"><button type="button" class="button" data-cloud="${register ? 'login' : 'register'}">${register ? '已有账号，去登录' : '创建账号'}</button><button class="button primary" type="submit">${register ? '创建我的空间' : '回到我的空间'} ${icon('arrow')}</button></div>
     </form>
-    <div class="privacy-note">${icon('shield')}<span>模型密钥仅保存在后端。登录后，对话与确认的记忆会保存在本服务数据库；聊天时相关内容会发送给 OpenAI 生成回复。</span></div>`, 'YOUR OWN COMPANION SPACE');
+    <div class="privacy-note">${icon('shield')}<span>模型密钥仅保存在后端。登录后，对话与确认的记忆会保存在本服务数据库；聊天时相关内容会发送给${providerLabel()}生成回复。</span></div>`, 'YOUR OWN COMPANION SPACE');
   $('#cloud-auth-form').addEventListener('submit', async event => {
     event.preventDefault();
     const button = event.target.querySelector('[type="submit"]'); button.disabled = true;
@@ -131,7 +132,7 @@ function openCloudAuth(register = false) {
 function openCloudConnection() {
   if (Cloud.enabled) {
     if (!Cloud.user) { openCloudAuth(); return; }
-    openModal('你的真实陪伴空间', `<div class="connection-status">${icon(Cloud.config.aiReady ? 'sparkles' : 'settings')}<div><h3>${Cloud.config.aiReady ? 'OpenAI 已配置' : '还差后端模型配置'}</h3><p>${Cloud.config.aiReady ? '对话会读取你确认的记忆与当前目标。' : '管理员需要在后端环境变量中填写 OPENAI_API_KEY 和 OPENAI_MODEL，重启服务后即可使用。'}</p></div></div><p>确认的偏好与目标保存在本服务数据库。同一服务地址、同一账号可以在其他设备继续。摄像头和语音仍为流程演示。</p><div class="modal-actions"><button class="button" data-cloud="logout">退出账号</button><button class="button primary" data-action="close-modal">了解了</button></div>`, 'CONNECTED, WITH MEMORY');
+    openModal('你的真实陪伴空间', `<div class="connection-status">${icon(Cloud.config.aiReady ? 'sparkles' : 'settings')}<div><h3>${Cloud.config.aiReady ? providerLabel() + '已配置' : '还差后端模型配置'}</h3><p>${Cloud.config.aiReady ? '对话会读取你确认的记忆与当前目标。' : '管理员需要在后端配置所选服务的 API Key 和模型名，重启后即可使用。'}</p></div></div><p>确认的偏好与目标保存在本服务数据库。同一服务地址、同一账号可以在其他设备继续。摄像头和语音仍为流程演示。</p><div class="modal-actions"><button class="button" data-cloud="logout">退出账号</button><button class="button primary" data-action="close-modal">了解了</button></div>`, 'CONNECTED, WITH MEMORY');
     return;
   }
   let saved = ''; try { saved = localStorage.getItem('qiban-backend-origin') || ''; } catch {}
@@ -205,7 +206,7 @@ renderChat = function cloudRenderChat() {
   if (!Cloud.enabled) return;
   if (draft) $('#chat-input').value = draft;
   const disclaimer = $('.chat-disclaimer');
-  disclaimer.textContent = !Cloud.user ? '登录后，继续有记忆的陪伴。' : !Cloud.config.aiReady ? 'AI 尚未配置 · 记忆与目标可以先使用' : state.noMemory ? '临时对话不写入栖伴数据库；本次输入仍由 OpenAI 处理。' : 'AI 回复 · 记忆与计划经你确认后保存';
+  disclaimer.textContent = !Cloud.user ? '登录后，继续有记忆的陪伴。' : !Cloud.config.aiReady ? 'AI 尚未配置 · 记忆与目标可以先使用' : state.noMemory ? '临时对话不写入栖伴数据库；本次输入仍由模型服务处理。' : 'AI 回复 · 记忆与计划经你确认后保存';
   const composer = $('#chat-input');
   composer.placeholder = Cloud.user ? '聊聊近况、偏好，或想实现的目标…' : '先登录，让伙伴真正认识你…';
   if (replyPending) { $('.send-button').disabled = true; $('.send-button').setAttribute('aria-label', 'AI 正在回复'); }
@@ -282,7 +283,7 @@ openSettings = function cloudSettings() {
   body.prepend(account);
   if (!Cloud.enabled) return;
   const privacy = body.querySelector('.privacy-note span');
-  if (privacy) privacy.textContent = '偏好与目标保存于本服务数据库；对话会发送给 OpenAI。“本次不记忆”不写入栖伴对话库，模型提供方仍会处理本次输入。';
+  if (privacy) privacy.textContent = '偏好与目标保存于本服务数据库；对话会发送给所选模型服务。“本次不记忆”不写入栖伴对话库，模型提供方仍会处理本次输入。';
   const resetRow = body.querySelector('[data-action="reset"]')?.closest('.setting-row');
   if (resetRow) {
     resetRow.querySelector('strong').textContent = '清空我的空间';

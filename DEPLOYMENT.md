@@ -2,7 +2,7 @@
 
 ## 上线需要的实际配置
 
-1. 一个 OpenAI API Key，以及该账号可用、支持 Responses API 严格结构化输出的模型名。
+1. 所选模型服务的 API Key。当前已适配阿里云百炼 qwen3.8-flash，也保留 OpenAI Responses 接入。
 2. 一个可运行 Node.js 24.18.x 或 Docker 的后端位置，带**持久化磁盘**。
 3. 后端的 HTTPS 根地址。后端会同时提供前端界面和 API，避免跨站 cookie 问题。
 
@@ -17,8 +17,13 @@ cp .env.example .env
 在本机编辑 `.env`：
 
 ```dotenv
-OPENAI_API_KEY=在本机填写真实密钥
-OPENAI_MODEL=填写账号可用的模型名
+AI_PROVIDER=aliyun
+DASHSCOPE_API_KEY=在本机填写真实密钥
+DASHSCOPE_MODEL=qwen3.8-flash
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+AI_BUDGET_CNY=10
+AI_BUDGET_MAX_CALLS=24
+AI_BUDGET_PATH=./data/aliyun-budget.sqlite
 NODE_ENV=development
 HOST=127.0.0.1
 PORT=4173
@@ -33,8 +38,12 @@ DATABASE_PATH=./data/qiban.sqlite
 在服务器克隆仓库并创建 `.env`。生产配置至少包括：
 
 ```dotenv
-OPENAI_API_KEY=在服务器环境中填写
-OPENAI_MODEL=填写账号可用的模型名
+AI_PROVIDER=aliyun
+DASHSCOPE_API_KEY=在服务器环境中填写
+DASHSCOPE_MODEL=qwen3.8-flash
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+AI_BUDGET_CNY=10
+AI_BUDGET_MAX_CALLS=24
 PUBLIC_ORIGIN=https://你的陪伴服务域名
 REGISTRATION_CODE=生成一个足够长的随机邀请码
 AI_USER_DAILY_LIMIT=60
@@ -60,6 +69,18 @@ Compose 只将服务绑定到服务器回环地址 `127.0.0.1:4173`。在 HTTPS 
 ## 前端入口
 
 在 GitHub Pages 展示站点击「连接 AI」，填写后端 HTTPS 根地址。浏览器会打开该服务，由用户在这个地址注册/登录。不要向浏览器提供 API Key。
+
+## 本轮真实测试
+
+只有显式授权真实费用后才运行：
+
+```sh
+QIBAN_RUN_LIVE_TESTS=1 node --use-env-proxy --env-file=.env scripts/live-test.mjs
+```
+
+该脚本创建合成测试账号、使用临时测试数据，并生成 `reports/日期-aliyun-live.md` 和 JSON。测试HTTP访问使用专用本地连接，外部模型访问可遵循系统代理。固定预算账本跨所有测试进程和重启累加；不要删除或更换账本来绕过本轮10元限制。Windows 可以先在终端设置对应环境变量再运行同一Node命令。
+
+仅补测上一轮失败项可设置 `QIBAN_RETRY_FAILED=1`，会保留已有成功证据，避免重复付费。未实现的摄像头、语音、推送与原生安装包在报告中单独标记，不冒充已通过。
 
 ## 更新与备份
 

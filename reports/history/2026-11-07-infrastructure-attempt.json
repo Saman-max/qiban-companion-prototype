@@ -1,0 +1,257 @@
+{
+  "date": "2026-11-07",
+  "startedAt": "2026-11-06T17:51:09.085Z",
+  "provider": "阿里云百炼",
+  "model": "qwen3.8-flash",
+  "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "budgetLimitCny": 10,
+  "data": "全部为合成测试数据；不包含真实用户资料",
+  "cases": [
+    {
+      "name": "账号创建与真实服务配置",
+      "category": "真实后端，无模型费用",
+      "status": "FAIL",
+      "elapsedMs": 353,
+      "modelCalls": 0,
+      "evidence": "fetch failed"
+    },
+    {
+      "name": "三款伙伴真实对话：糯米",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 1,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "三款伙伴真实对话：星弥",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "三款伙伴真实对话：曜",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "偏好提取与原文证据、确认后保存",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "换伙伴后的长期偏好召回",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "根据偏好生成可确认的目标计划",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "服务重启、同账号第二会话恢复记忆与目标",
+      "category": "真实后端，无模型费用",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "进度更新、AI 调整计划并保留已完成项",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "到期跟进、安静时段与当日去重",
+      "category": "真实后端，无模型费用",
+      "status": "BLOCKED",
+      "elapsedMs": 1,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "偏好纠正使用相同记忆 key",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "临时对话调用真实 AI，但不写入对话或建议",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "不同账号的模型上下文隔离",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "手动记忆能被真实模型召回",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "忘记记忆后真实模型不再引用已删饮品偏好",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "同请求编号重放不增加模型费用或重复消息",
+      "category": "真实模型+后端",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "视觉理解 API：识别合成红色图片",
+      "category": "真实模型能力探测",
+      "status": "PASS",
+      "elapsedMs": 1871,
+      "modelCalls": 1,
+      "evidence": {
+        "reply": "红色",
+        "fixture": "程序生成的 64×64 红色图片，不含摄像头画面",
+        "scope": "仅验证模型视觉 API；设备摄像头共享仍未接入"
+      }
+    },
+    {
+      "name": "导出与退出登录",
+      "category": "真实后端，无模型费用",
+      "status": "BLOCKED",
+      "elapsedMs": 0,
+      "modelCalls": 0,
+      "evidence": "依赖的本地登录失败，未实际执行该功能测试。",
+      "rawStatus": "FAIL"
+    },
+    {
+      "name": "真实设备摄像头授权与跨设备视频共享",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "现有产品只有交互演示，尚未实现真实连接；视觉 API 成功不代表摄像头共享已实现。",
+      "modelCalls": 0
+    },
+    {
+      "name": "真实麦克风、语音识别和语音合成",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "现有产品尚未接入语音 API，本次未产生语音服务调用。",
+      "modelCalls": 0
+    },
+    {
+      "name": "手机/浏览器系统推送",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "当前仅持久化站内跟进记录，未实现系统推送。",
+      "modelCalls": 0
+    },
+    {
+      "name": "四端原生安装包与系统级悬浮桌宠",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "当前为浏览器应用，未生成原生安装包。",
+      "modelCalls": 0
+    },
+    {
+      "name": "公网真实后端部署",
+      "status": "NOT_IMPLEMENTED",
+      "category": "能力边界",
+      "evidence": "后端部署位置尚未确定；GitHub Pages 不能运行该后端。",
+      "modelCalls": 0
+    }
+  ],
+  "finishedAt": "2026-11-06T17:51:11.319Z",
+  "budget": {
+    "limitCny": 10,
+    "maxCalls": 24,
+    "attempts": 2,
+    "reservedCny": 0.5,
+    "conservativeEstimatedCny": 0.000275,
+    "beijingListPriceEstimateCny": 0.0001121,
+    "inputTokens": 130,
+    "outputTokens": 3,
+    "calls": [
+      {
+        "id": "45d27d00-4c7c-4c2a-8ade-7b5a590930c7",
+        "created": "2026-11-06T17:47:33.215Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 29,
+        "output_tokens": 1,
+        "request_id": "chatcmpl-c97c0144-0e69-981e-bc6d-9e7f4d4ff679",
+        "estimated_micros": 63,
+        "error_code": ""
+      },
+      {
+        "id": "6ce81341-56d6-4129-a693-8ed9f8c28d12",
+        "created": "2026-11-06T17:51:09.449Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-e83d0ac4-3aa2-99ee-a915-caee731db520",
+        "estimated_micros": 212,
+        "error_code": ""
+      }
+    ]
+  },
+  "summary": {
+    "PASS": 1,
+    "FAIL": 1,
+    "BLOCKED": 16,
+    "NOT_IMPLEMENTED": 5
+  },
+  "scopeNote": "首次测试框架的本地连接被代理影响；登录未成功，依赖登录的功能没有实际执行。视觉模型探测单独成功。已修正本地直连方式，最终功能结论以后续主报告为准。",
+  "rawSummary": {
+    "PASS": 1,
+    "FAIL": 17,
+    "NOT_IMPLEMENTED": 5
+  }
+}
