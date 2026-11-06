@@ -1,7 +1,7 @@
 'use strict';
 // The real service serves this UI and /api on the SAME origin. No model key ever enters the browser.
 const Cloud = window.QibanCloud = {
-  enabled: false, user: null, config: null, revision: 0, proposals: [], checkins: [],
+  enabled: false, user: null, config: null, revision: 0, epoch: 0, proposals: [], checkins: [],
   settings: { timezone: 'Asia/Shanghai', remindersEnabled: false, reminderHour: 19 },
   dirty: false, savePromise: null, timer: null, lastSaved: '', conflict: null, turn: 0,
   queueSave() {
@@ -27,7 +27,7 @@ const Cloud = window.QibanCloud = {
         if (this.user?.id !== userId) return;
         this.revision = result.revision;
         if (JSON.stringify(this.payload()) === serialized) {
-          applyCloudSpace(result);
+          applyCloudSpace(result, { keepMessages: true });
           renderMain();
           if (result.contextCleared) { renderChat(); toast('记忆已更新，并清理旧对话上下文，避免再次引用旧内容。'); }
         } else { this.lastSaved = JSON.stringify({ settings: result.settings, memories: result.memories, goals: result.goals }); this.dirty = true; }
@@ -72,15 +72,17 @@ function clearCloudSession() {
   $('#floating-pet').hidden = true;
   render();
 }
-function applyCloudSpace(space) {
+function applyCloudSpace(space, { keepMessages = false } = {}) {
+  const visibleMessages = state.messages;
   const ephemeral = space.contextCleared ? [] : state.messages.filter(m => m.ephemeral);
   Cloud.revision = space.revision;
+  Cloud.epoch = space.epoch;
   Cloud.settings = { ...space.settings };
   Cloud.proposals = space.proposals || [];
   Cloud.checkins = space.checkins || [];
   state.pet = space.settings.pet; state.quiet = space.settings.quiet;
   state.memories = space.memories; state.goals = space.goals;
-  state.messages = [...space.messages, ...ephemeral];
+  state.messages = keepMessages && !space.contextCleared ? visibleMessages : [...space.messages, ...ephemeral];
   Cloud.lastSaved = JSON.stringify(Cloud.payload());
   Cloud.dirty = false;
 }
@@ -177,7 +179,13 @@ sendMessage = async function realSendMessage(text) {
     if (privateMode) state.messages.push({ role: 'assistant', text: result.reply, name, ephemeral: true });
     else {
       state.messages = state.messages.filter(m => m.id !== pendingId);
-      applyCloudSpace(result);
+      if (Cloud.dirty || Cloud.savePromise || result.revision < Cloud.revision) {
+        // A reply must not replace edits made while the model was working.
+        if (result.epoch >= Cloud.epoch) {
+          state.messages = [...result.messages, ...state.messages.filter(m => m.ephemeral)];
+          Cloud.proposals = result.proposals; Cloud.checkins = result.checkins;
+        }
+      } else applyCloudSpace(result);
     }
     renderMain();
   } catch (error) {
@@ -319,7 +327,7 @@ document.addEventListener('click', async event => {
   const target = event.target.closest('[data-cloud],[data-cloud-proposal],[data-cloud-dismiss],[data-cloud-seen]'); if (!target) return;
   try {
     if (target.dataset.cloudProposal) { await showProposal(target.dataset.cloudProposal); return; }
-    if (target.dataset.cloudDismiss) { await Cloud.flush(); applyCloudSpace(await cloudRequest(`/api/proposals/${target.dataset.cloudDismiss}/dismiss`, 'POST', {})); renderChat(); return; }
+    if (target.dataset.cloudDismiss) { await Cloud.flush(); applyCloudSpace(await cloudRequest(`/api/proposals/${target.dataset.cloudDismiss}/dismiss`, 'POST', {}), { keepMessages: true }); renderChat(); return; }
     if (target.dataset.cloudSeen) { await cloudRequest('/api/checkins/seen', 'POST', { ids: [target.dataset.cloudSeen] }); Cloud.checkins = Cloud.checkins.filter(c => c.id !== target.dataset.cloudSeen); renderChat(); return; }
     if (target.dataset.cloud === 'connect') openCloudConnection();
     if (target.dataset.cloud === 'register') openCloudAuth(true);
@@ -338,7 +346,7 @@ window.addEventListener('beforeunload', event => {
 // Prevent signed-out backend users from editing an apparent demo account.
 document.addEventListener('click', event => {
   if (!Cloud.enabled) return;
-  if (replyPending && event.target.closest('[data-pet],[data-task],[data-delete-goal],[data-edit-memory],[data-delete-memory],[data-action="add-memory"],[data-action="quiet"],[data-action="settings-quiet"],[data-cloud-proposal],#save-review')) {
+  if (replyPending && event.target.closest('[data-pet],[data-task],[data-delete-goal],[data-edit-memory],[data-delete-memory],[data-action="add-memory"],[data-action="new-goal"],[data-action="quiet"],[data-action="settings-quiet"],[data-cloud-proposal],[data-cloud="reminders"],[data-cloud="manual-goal"],[data-cloud="replan"],#reminder-hour,#save-review')) {
     event.stopImmediatePropagation(); event.preventDefault(); toast('等这次回复完成后，再更新记忆、伙伴或目标。'); return;
   }
   const mood = event.target.closest('[data-mood]');
@@ -349,6 +357,12 @@ document.addEventListener('click', event => {
   if (Cloud.user) return;
   const target = event.target.closest('[data-task],[data-delete-goal],[data-edit-memory],[data-delete-memory],[data-action="add-memory"],[data-action="focus"],[data-focus-task]');
   if (target) { event.stopImmediatePropagation(); event.preventDefault(); openCloudAuth(); }
+}, true);
+document.addEventListener('change', event => {
+  if (Cloud.enabled && replyPending && event.target.id === 'reminder-hour') {
+    event.stopImmediatePropagation(); event.target.value = String(Cloud.settings.reminderHour);
+    toast('等这次回复完成后，再调整跟进时间。');
+  }
 }, true);
 
 (async function initializeCloud() {
