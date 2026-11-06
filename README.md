@@ -59,6 +59,7 @@ npm test
 | `server/provider.mjs` | OpenAI 请求、人格、记忆召回、结构化输出校验 |
 | `server/store.mjs` | SQLite、版本冲突、记忆/计划落库、持久化跟进 |
 | `test/backend.test.mjs` | 后端行为与隔离测试 |
+| `test/client-sync.test.mjs` | 回复与保存并发、临时内容清理的前端回归测试 |
 | `.env.example` / `Dockerfile` / `compose.yaml` | 配置与部署 |
 
 ## 展示站发布

@@ -76,6 +76,8 @@ docker compose up -d --build
 
 `npm test` 使用独立临时数据库和模型替身验证账号隔离、记忆召回、忘记后的上下文清理、临时对话、计划过期冲突、重启持久化、请求去重、并发上下文失效、到期提醒与 OpenAI 请求结构。
 
+前端同步测试另行模拟回复与保存同时返回的情况，验证新目标不会被旧回复覆盖、新回复不会被旧保存结果清除，以及忘记上下文会清理临时消息。
+
 本地未配置真实模型密钥时，不能宣称真实模型已联通。Docker 环境需要在安装了 Docker 的实际主机上额外验证。
 
 参考：[OpenAI 结构化输出](https://developers.openai.com/api/docs/guides/structured-outputs)、[GitHub Pages 的静态托管范围](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。
