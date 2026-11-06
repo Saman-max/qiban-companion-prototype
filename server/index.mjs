@@ -173,7 +173,7 @@ export function createApp(options = {}) {
           const context = store.row(user.id);
           let history = store.messages(user.id);
           if (body.privateMode) {
-            if (!Array.isArray(body.history) || body.history.length > 12 || body.history.some(m => !m || !['user', 'assistant'].includes(m.role) || typeof m.text !== 'string' || m.text.length > 4000)) throw new AppError(400, '临时对话上下文格式不正确。', 'INVALID_INPUT');
+            if (!Array.isArray(body.history) || body.history.length > 12 || body.history.some(m => !m || !['user', 'assistant'].includes(m.role) || typeof m.text !== 'string' || m.text.length > 4000 || m.pet != null && (typeof m.pet !== 'string' || !Object.hasOwn(petNames, m.pet)))) throw new AppError(400, '临时对话上下文格式不正确。', 'INVALID_INPUT');
             history = body.history;
           }
           const turn = validateTurn(await provider(makeInput({ pet: body.pet, text: body.text, memories: context.memories, goals: context.goals, history, privateMode: body.privateMode, date: localDay(new Date(), context.settings.timezone).date, timezone: context.settings.timezone })), body.text, context.goals, body.privateMode);

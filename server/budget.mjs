@@ -9,7 +9,7 @@ import { AppError } from './provider.mjs';
 // qwen3.8-flash only; <=40 KB request, <=2048 output tokens, no tools/thinking.
 export class BudgetLedger {
   constructor(path, { limitCny = 10, maxCalls = 24 } = {}) {
-    if (!Number.isFinite(limitCny) || limitCny <= 0 || limitCny > 10 || !Number.isInteger(maxCalls) || maxCalls < 1 || maxCalls > 24) throw new Error('Live trial limit must be <= CNY 10 and <=24 attempts.');
+    if (!Number.isFinite(limitCny) || limitCny <= 0 || limitCny > 10 || !Number.isInteger(maxCalls) || maxCalls < 1 || maxCalls > 36) throw new Error('Live trial limit must be <= CNY 10 and <=36 attempts.');
     if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
     this.db = new DatabaseSync(path);
     this.db.exec('PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000; CREATE TABLE IF NOT EXISTS attempts(id TEXT PRIMARY KEY, created TEXT NOT NULL, reserved_micros INTEGER NOT NULL, status TEXT NOT NULL, input_tokens INTEGER, output_tokens INTEGER, request_id TEXT, estimated_micros INTEGER, error_code TEXT)');

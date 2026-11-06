@@ -1,9 +1,9 @@
 'use strict';
 // Original, scalable character illustrations. Every instance owns its gradient IDs.
 window.PETS = {
-  nuomi: { name: '糯米', en: 'NUOMI', type: '软萌治愈', subtitle: '把平凡的日子，过得软乎乎。', color: '#64836a', greeting: '今天也辛苦啦。想聊聊天，还是一起完成一件小事？', line: '不用一下子变得很厉害，\n我陪你一点一点来。', tag: '温柔 · 治愈 · 陪伴', detail: '一只带着小叶子围巾的奶油色小兽。喜欢听你说话，也擅长发现那些被你忽略的小进步。' },
-  xingmi: { name: '星弥', en: 'XINGMI', type: '幻想同频', subtitle: '每个小小的愿望，都值得发光。', color: '#8b7baa', greeting: '你来啦！今天想一起探索什么？把那个小愿望说给我听吧。', line: '你的每一点勇气，\n我都替你收藏成星星。', tag: '灵动 · 好奇 · 共创', detail: '从微光中诞生的小精灵。把你的想法当作冒险的起点，和你一起把日常变成值得收藏的故事。' },
-  yao: { name: '曜', en: 'YAO', type: '理性共进', subtitle: '保持清醒，也保留温度。', color: '#658e9c', greeting: '我在。今天的优先事项已就绪，我们从最重要的一步开始。', line: '目标可以很远，\n下一步可以很近。', tag: '沉稳 · 专注 · 可靠', detail: '一个有温度的智能核心。帮你理清复杂的想法，拆解目标，在需要的时候给你恰到好处的推动。' }
+  nuomi: { name: '糯米', en: 'NUOMI', type: '温柔陪伴', subtitle: '把平凡的日子，过得软乎乎。', color: '#64836a', greeting: '我是糯米。想说说今天的心情，还是先安静待一会儿？我陪你。', line: '不用一下子变得很厉害，\n我陪你一点一点来。', tag: '倾听 · 体贴 · 陪伴', detail: '一只带着小叶子围巾的奶油色小兽。先听心情，再陪你选一件容易开始的小事；不催促，也留出休息的余地。' },
+  xingmi: { name: '星弥', en: 'XINGMI', type: '幻想共创', subtitle: '每个小小的愿望，都值得发光。', color: '#8b7baa', greeting: '我是星弥。把今天当作一张还没画完的地图，你想给哪一个小愿望标上起点？', line: '你的每一点勇气，\n我都替你收藏成星星。', tag: '灵动 · 好奇 · 共创', detail: '从微光中诞生的小精灵。用一个轻巧的意象打开话题，和你一起探索；每次小冒险，都有能落地的下一步。' },
+  yao: { name: '曜', en: 'YAO', type: '理性共进', subtitle: '保持清醒，也保留温度。', color: '#658e9c', greeting: '我是曜。今天最需要理清哪件事？我们先确定重点，再选一个能完成的动作。', line: '目标可以很远，\n下一步可以很近。', tag: '沉稳 · 专注 · 可靠', detail: '一个有温度的智能核心。帮你抓住重点、排好优先级，写清具体动作和完成条件；疲惫时也会一起缩小任务。' }
 };
 let petSerial = 0;
 window.petArt = function(type, extraClass = '') {

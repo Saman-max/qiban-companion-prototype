@@ -23,6 +23,23 @@ test('monetary reservations persist across restarts and rejected/unknown calls c
   ledger.close();
 });
 
+test('increasing the trial attempt ceiling keeps prior reservations and the ten-yuan ceiling', async t => {
+  const directory = await mkdtemp(join(tmpdir(), 'qiban-budget-cap-'));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const path = join(directory, 'budget.sqlite');
+  let ledger = new BudgetLedger(path, { limitCny: 10, maxCalls: 24 });
+  for (let i = 0; i < 24; i++) ledger.reserve('qwen3.8-flash', 1000, 100);
+  ledger.close();
+  ledger = new BudgetLedger(path, { limitCny: 10, maxCalls: 36 });
+  assert.equal(ledger.summary().reservedCny, 6);
+  for (let i = 0; i < 12; i++) ledger.reserve('qwen3.8-flash', 1000, 100);
+  assert.equal(ledger.summary().reservedCny, 9);
+  assert.throws(() => ledger.reserve('qwen3.8-flash', 1000, 100), { code: 'BUDGET_EXHAUSTED' });
+  ledger.close();
+  assert.throws(() => new BudgetLedger(':memory:', { limitCny: 10.01, maxCalls: 36 }));
+  assert.throws(() => new BudgetLedger(':memory:', { limitCny: 10, maxCalls: 37 }));
+});
+
 test('Aliyun adapter uses only official hosts, caps output and records usage without retaining secrets', async () => {
   const ledger = new BudgetLedger(':memory:');
   let sent;

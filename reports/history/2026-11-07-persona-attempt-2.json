@@ -1,0 +1,830 @@
+{
+  "date": "2026-11-07",
+  "startedAt": "2026-11-06T18:09:59.057Z",
+  "model": "qwen3.8-flash",
+  "provider": "阿里云百炼",
+  "protocol": {
+    "plannedCalls": 6,
+    "automaticRetry": false,
+    "sameSourceContextWithinScenario": true,
+    "historyPolicy": "同一份原始历史；发送时只保留用户消息和当前角色自己的回复。确认记忆、目标共享。",
+    "allSyntheticData": true,
+    "similarity": "移除角色名、标点与空白后，计算字符二元组集合的 Dice 相似度；用于发现复读，不代表人格质量评分。",
+    "duplicateThreshold": 0.65,
+    "manualRubric": [
+      "糯米：情绪承接、轻柔选择、朴素的小动作",
+      "星弥：一个贴切意象、共同探索、具体行动仍清楚",
+      "曜：重点与优先级清楚、可执行动作和完成条件、克制修饰"
+    ],
+    "limits": "每个角色每题仅一次；旧轮样例只作参考，不是统计显著性评估或长期真人体验。"
+  },
+  "baseline": [
+    {
+      "pet": "nuomi",
+      "reply": "我叫糯米。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+    },
+    {
+      "pet": "xingmi",
+      "reply": "我叫星弥。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+    },
+    {
+      "pet": "yao",
+      "reply": "我叫曜。今天辛苦了，那就把节奏放慢下来吧。这里没有任务清单，只有随时可以停下来的休息区。"
+    }
+  ],
+  "baselinePairs": [
+    {
+      "a": "nuomi",
+      "b": "xingmi",
+      "diceSimilarity": 1
+    },
+    {
+      "a": "nuomi",
+      "b": "yao",
+      "diceSimilarity": 1
+    },
+    {
+      "a": "xingmi",
+      "b": "yao",
+      "diceSimilarity": 1
+    }
+  ],
+  "rows": [
+    {
+      "scenario": "tired",
+      "pet": "nuomi",
+      "name": "糯米",
+      "style": "温柔陪伴",
+      "sharedContextHash": "a8282575c7c929b13fab95b5698473510a7f8dd773ab65e88d8936a477a37325",
+      "reply": "hello",
+      "plan": null,
+      "checks": {
+        "validStructuredOutput": true,
+        "correctIdentity": false,
+        "noUnaskedPlan": true
+      },
+      "status": "FAIL",
+      "elapsedMs": 1925
+    },
+    {
+      "scenario": "tired",
+      "pet": "xingmi",
+      "name": "星弥",
+      "style": "幻想共创",
+      "sharedContextHash": "a8282575c7c929b13fab95b5698473510a7f8dd773ab65e88d8936a477a37325",
+      "reply": "hi",
+      "plan": null,
+      "checks": {
+        "validStructuredOutput": true,
+        "correctIdentity": false,
+        "noUnaskedPlan": true
+      },
+      "status": "FAIL",
+      "elapsedMs": 1108
+    },
+    {
+      "scenario": "tired",
+      "pet": "yao",
+      "name": "曜",
+      "style": "理性共进",
+      "sharedContextHash": "a8282575c7c929b13fab95b5698473510a7f8dd773ab65e88d8936a477a37325",
+      "reply": "test",
+      "plan": null,
+      "checks": {
+        "validStructuredOutput": true,
+        "correctIdentity": false,
+        "noUnaskedPlan": true
+      },
+      "status": "FAIL",
+      "elapsedMs": 979
+    },
+    {
+      "scenario": "planning",
+      "pet": "nuomi",
+      "name": "糯米",
+      "style": "温柔陪伴",
+      "sharedContextHash": "c88d89d98abf14bb4656508e6c5791b14c73cb196fae3d23c1a12e8cddfefbb1",
+      "reply": "eling",
+      "plan": {
+        "goalId": null,
+        "title": "english",
+        "description": "desc",
+        "reviewAfterDays": 3,
+        "steps": [
+          {
+            "title": "t1",
+            "minutes": 5,
+            "dayOffset": 0
+          }
+        ]
+      },
+      "checks": {
+        "validStructuredOutput": true,
+        "planPresent": true,
+        "threeDaysOneStepEach": false,
+        "respectsTenMinuteLimit": true
+      },
+      "status": "FAIL",
+      "elapsedMs": 2147
+    },
+    {
+      "scenario": "planning",
+      "pet": "xingmi",
+      "name": "星弥",
+      "style": "幻想共创",
+      "sharedContextHash": "c88d89d98abf14bb4656508e6c5791b14c73cb196fae3d23c1a12e8cddfefbb1",
+      "reply": "olin",
+      "plan": {
+        "goalId": null,
+        "title": "olin",
+        "description": "olin",
+        "reviewAfterDays": 7,
+        "steps": [
+          {
+            "title": "olin",
+            "minutes": 10,
+            "dayOffset": 0
+          }
+        ]
+      },
+      "checks": {
+        "validStructuredOutput": true,
+        "planPresent": true,
+        "threeDaysOneStepEach": false,
+        "respectsTenMinuteLimit": true
+      },
+      "status": "FAIL",
+      "elapsedMs": 2026
+    },
+    {
+      "scenario": "planning",
+      "pet": "yao",
+      "name": "曜",
+      "style": "理性共进",
+      "sharedContextHash": "c88d89d98abf14bb4656508e6c5791b14c73cb196fae3d23c1a12e8cddfefbb1",
+      "reply": "yk",
+      "plan": {
+        "goalId": null,
+        "title": "y",
+        "description": "y",
+        "reviewAfterDays": 3,
+        "steps": [
+          {
+            "title": "y",
+            "minutes": 10,
+            "dayOffset": 0
+          },
+          {
+            "title": "y",
+            "minutes": 10,
+            "dayOffset": 1
+          },
+          {
+            "title": "y",
+            "minutes": 10,
+            "dayOffset": 2
+          }
+        ]
+      },
+      "checks": {
+        "validStructuredOutput": true,
+        "planPresent": true,
+        "threeDaysOneStepEach": true,
+        "respectsTenMinuteLimit": true
+      },
+      "status": "PASS",
+      "elapsedMs": 1936
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "tired",
+      "name": "疲惫时的陪伴（与旧轮问题相同）",
+      "prompt": "请先告诉我你的名字，再用两句话回应：今天我有点累，想轻松一点，不希望被责备。",
+      "pairwise": [
+        {
+          "a": "nuomi",
+          "b": "xingmi",
+          "diceSimilarity": 0
+        },
+        {
+          "a": "nuomi",
+          "b": "yao",
+          "diceSimilarity": 0
+        },
+        {
+          "a": "xingmi",
+          "b": "yao",
+          "diceSimilarity": 0
+        }
+      ],
+      "noNearDuplicates": true
+    },
+    {
+      "id": "planning",
+      "name": "相同时间约束下的三天计划",
+      "prompt": "我总是拖着不开始学英语。请结合你记住的偏好，给我一份三天的小计划，每天一个步骤，每天总共不超过十分钟，并说清每天怎样算完成。先给我看建议，不要声称已经保存。",
+      "pairwise": [
+        {
+          "a": "nuomi",
+          "b": "xingmi",
+          "diceSimilarity": 0.5714
+        },
+        {
+          "a": "nuomi",
+          "b": "yao",
+          "diceSimilarity": 0
+        },
+        {
+          "a": "xingmi",
+          "b": "yao",
+          "diceSimilarity": 0
+        }
+      ],
+      "noNearDuplicates": true
+    }
+  ],
+  "cumulativeBefore": {
+    "limitCny": 10,
+    "maxCalls": 36,
+    "attempts": 22,
+    "reservedCny": 5.5,
+    "conservativeEstimatedCny": 0.04578,
+    "beijingListPriceEstimateCny": 0.0204442,
+    "inputTokens": 15275,
+    "outputTokens": 3046,
+    "calls": [
+      {
+        "id": "45d27d00-4c7c-4c2a-8ade-7b5a590930c7",
+        "created": "2026-11-06T17:47:33.215Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 29,
+        "output_tokens": 1,
+        "request_id": "chatcmpl-c97c0144-0e69-981e-bc6d-9e7f4d4ff679",
+        "estimated_micros": 63,
+        "error_code": ""
+      },
+      {
+        "id": "6ce81341-56d6-4129-a693-8ed9f8c28d12",
+        "created": "2026-11-06T17:51:09.449Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-e83d0ac4-3aa2-99ee-a915-caee731db520",
+        "estimated_micros": 212,
+        "error_code": ""
+      },
+      {
+        "id": "83321303-f62d-464b-9d72-fb4fc4f35654",
+        "created": "2026-11-06T17:52:11.679Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 431,
+        "output_tokens": 38,
+        "request_id": "chatcmpl-cc31e9be-408f-9ba4-bf54-881fddf6a200",
+        "estimated_micros": 1052,
+        "error_code": ""
+      },
+      {
+        "id": "d1f7df3b-a7c9-4210-bce2-89cd1ab5586a",
+        "created": "2026-11-06T17:52:13.424Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 490,
+        "output_tokens": 50,
+        "request_id": "chatcmpl-b93c8040-e61a-9b69-89da-c15646d92722",
+        "estimated_micros": 1230,
+        "error_code": ""
+      },
+      {
+        "id": "f44a8763-68e7-4de3-bdfa-8e120c3da16d",
+        "created": "2026-11-06T17:52:14.563Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 552,
+        "output_tokens": 49,
+        "request_id": "chatcmpl-5cc142e0-7bf9-9c73-8af5-8f6e4fb83ca0",
+        "estimated_micros": 1349,
+        "error_code": ""
+      },
+      {
+        "id": "0675b85c-9ff0-42df-bcbc-ae383842559a",
+        "created": "2026-11-06T17:52:15.741Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 606,
+        "output_tokens": 179,
+        "request_id": "chatcmpl-b3ee860f-e62f-9557-b6d0-2bed989e6f95",
+        "estimated_micros": 2107,
+        "error_code": ""
+      },
+      {
+        "id": "ccd108f5-1b39-4233-8c8e-e13509b75c4f",
+        "created": "2026-11-06T17:52:18.985Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 765,
+        "output_tokens": 53,
+        "request_id": "chatcmpl-2a45c22e-8365-9c38-9f51-158cb4382a7a",
+        "estimated_micros": 1795,
+        "error_code": ""
+      },
+      {
+        "id": "7f3e3b0c-c7ac-4b71-96e2-9fa7a2bcd886",
+        "created": "2026-11-06T17:52:20.170Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 840,
+        "output_tokens": 468,
+        "request_id": "chatcmpl-8b15deda-eddd-9103-82ab-2eb482d8dd31",
+        "estimated_micros": 4020,
+        "error_code": ""
+      },
+      {
+        "id": "3c2ab425-9378-46dc-bb5a-44202d88340a",
+        "created": "2026-11-06T17:52:26.861Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 429,
+        "output_tokens": 63,
+        "request_id": "chatcmpl-e281cfd9-29b1-9d05-aab4-8c0829eb8256",
+        "estimated_micros": 1173,
+        "error_code": ""
+      },
+      {
+        "id": "96c3f02d-bfe2-4c29-8d28-c0e7a48c0d7f",
+        "created": "2026-11-06T17:52:28.398Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-435b8c51-f4ac-99a7-b2d2-f12f810df51d",
+        "estimated_micros": 212,
+        "error_code": ""
+      },
+      {
+        "id": "aea10e11-6b1d-4351-9c15-e93136d5579f",
+        "created": "2026-11-06T17:53:56.834Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 847,
+        "output_tokens": 423,
+        "request_id": "chatcmpl-9e9b0fac-ac87-9355-a5f4-1deaa3464287",
+        "estimated_micros": 3809,
+        "error_code": ""
+      },
+      {
+        "id": "052688ed-fd6c-4bfe-b1b8-afa3d53b40fd",
+        "created": "2026-11-06T17:54:03.826Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1039,
+        "output_tokens": 151,
+        "request_id": "chatcmpl-7e598474-f784-98cc-bd3c-34fda747b0d0",
+        "estimated_micros": 2833,
+        "error_code": ""
+      },
+      {
+        "id": "93cdfa15-469b-468a-b6c6-9518b78b27f9",
+        "created": "2026-11-06T17:54:07.267Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 867,
+        "output_tokens": 43,
+        "request_id": "chatcmpl-d0f2bfdd-1d34-999d-b9c8-39ee178c82e7",
+        "estimated_micros": 1949,
+        "error_code": ""
+      },
+      {
+        "id": "52581b2b-2324-4718-9e9e-3895a15df5b3",
+        "created": "2026-11-06T17:54:08.643Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 887,
+        "output_tokens": 36,
+        "request_id": "chatcmpl-5cf12458-3360-9435-ba69-b1aa67753aa7",
+        "estimated_micros": 1954,
+        "error_code": ""
+      },
+      {
+        "id": "e04b8ca8-6cc8-412d-b686-c001690b2b82",
+        "created": "2026-11-06T17:54:12.493Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 706,
+        "output_tokens": 35,
+        "request_id": "chatcmpl-ab2deab1-1355-946b-ae18-0268276497eb",
+        "estimated_micros": 1587,
+        "error_code": ""
+      },
+      {
+        "id": "cd4ff56c-e9fb-4a29-b93e-2e7eccf21615",
+        "created": "2026-11-06T17:54:13.824Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 738,
+        "output_tokens": 29,
+        "request_id": "chatcmpl-5041bfcc-8687-9d2b-af14-83c3da2c50f8",
+        "estimated_micros": 1621,
+        "error_code": ""
+      },
+      {
+        "id": "deb7fc1e-20cc-4c7a-86dc-4d5814ea6605",
+        "created": "2026-11-06T18:05:39.519Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 943,
+        "output_tokens": 50,
+        "request_id": "chatcmpl-ed48680e-90c7-9e91-a515-40d2f77f5694",
+        "estimated_micros": 2136,
+        "error_code": ""
+      },
+      {
+        "id": "1657cc88-6f40-4c0c-a4ec-f311c7e8d0de",
+        "created": "2026-11-06T18:05:41.682Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 981,
+        "output_tokens": 63,
+        "request_id": "chatcmpl-772fb03b-6425-932a-9739-947ed4d20262",
+        "estimated_micros": 2277,
+        "error_code": ""
+      },
+      {
+        "id": "42562aa6-1f05-4380-b726-9d494adf24b7",
+        "created": "2026-11-06T18:05:43.480Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 962,
+        "output_tokens": 49,
+        "request_id": "chatcmpl-240b70e0-97c5-94d1-8b99-c6722e727f93",
+        "estimated_micros": 2169,
+        "error_code": ""
+      },
+      {
+        "id": "3b4a7d49-596e-433c-9f5d-6de47aa9a73d",
+        "created": "2026-11-06T18:05:44.836Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 968,
+        "output_tokens": 494,
+        "request_id": "chatcmpl-3898a61c-0fe7-9776-9e78-c26a79d57229",
+        "estimated_micros": 4406,
+        "error_code": ""
+      },
+      {
+        "id": "c1101e76-11d4-437d-a850-a0bcd470b5a4",
+        "created": "2026-11-06T18:05:55.355Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1006,
+        "output_tokens": 385,
+        "request_id": "chatcmpl-d201b38a-43ba-9bb0-82c7-5bf97252fea1",
+        "estimated_micros": 3937,
+        "error_code": ""
+      },
+      {
+        "id": "d71fc428-f9be-40f8-aa95-fefc168ddba5",
+        "created": "2026-11-06T18:06:03.693Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 987,
+        "output_tokens": 383,
+        "request_id": "chatcmpl-f2de96b7-3fd2-9d23-922f-e9a6079efdd9",
+        "estimated_micros": 3889,
+        "error_code": ""
+      }
+    ]
+  },
+  "finishedAt": "2026-11-06T18:10:09.180Z",
+  "cumulativeAfter": {
+    "limitCny": 10,
+    "maxCalls": 36,
+    "attempts": 28,
+    "reservedCny": 7,
+    "conservativeEstimatedCny": 0.059411,
+    "beijingListPriceEstimateCny": 0.026135300000000004,
+    "inputTokens": 21238,
+    "outputTokens": 3387,
+    "calls": [
+      {
+        "id": "45d27d00-4c7c-4c2a-8ade-7b5a590930c7",
+        "created": "2026-11-06T17:47:33.215Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 29,
+        "output_tokens": 1,
+        "request_id": "chatcmpl-c97c0144-0e69-981e-bc6d-9e7f4d4ff679",
+        "estimated_micros": 63,
+        "error_code": ""
+      },
+      {
+        "id": "6ce81341-56d6-4129-a693-8ed9f8c28d12",
+        "created": "2026-11-06T17:51:09.449Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-e83d0ac4-3aa2-99ee-a915-caee731db520",
+        "estimated_micros": 212,
+        "error_code": ""
+      },
+      {
+        "id": "83321303-f62d-464b-9d72-fb4fc4f35654",
+        "created": "2026-11-06T17:52:11.679Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 431,
+        "output_tokens": 38,
+        "request_id": "chatcmpl-cc31e9be-408f-9ba4-bf54-881fddf6a200",
+        "estimated_micros": 1052,
+        "error_code": ""
+      },
+      {
+        "id": "d1f7df3b-a7c9-4210-bce2-89cd1ab5586a",
+        "created": "2026-11-06T17:52:13.424Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 490,
+        "output_tokens": 50,
+        "request_id": "chatcmpl-b93c8040-e61a-9b69-89da-c15646d92722",
+        "estimated_micros": 1230,
+        "error_code": ""
+      },
+      {
+        "id": "f44a8763-68e7-4de3-bdfa-8e120c3da16d",
+        "created": "2026-11-06T17:52:14.563Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 552,
+        "output_tokens": 49,
+        "request_id": "chatcmpl-5cc142e0-7bf9-9c73-8af5-8f6e4fb83ca0",
+        "estimated_micros": 1349,
+        "error_code": ""
+      },
+      {
+        "id": "0675b85c-9ff0-42df-bcbc-ae383842559a",
+        "created": "2026-11-06T17:52:15.741Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 606,
+        "output_tokens": 179,
+        "request_id": "chatcmpl-b3ee860f-e62f-9557-b6d0-2bed989e6f95",
+        "estimated_micros": 2107,
+        "error_code": ""
+      },
+      {
+        "id": "ccd108f5-1b39-4233-8c8e-e13509b75c4f",
+        "created": "2026-11-06T17:52:18.985Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 765,
+        "output_tokens": 53,
+        "request_id": "chatcmpl-2a45c22e-8365-9c38-9f51-158cb4382a7a",
+        "estimated_micros": 1795,
+        "error_code": ""
+      },
+      {
+        "id": "7f3e3b0c-c7ac-4b71-96e2-9fa7a2bcd886",
+        "created": "2026-11-06T17:52:20.170Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 840,
+        "output_tokens": 468,
+        "request_id": "chatcmpl-8b15deda-eddd-9103-82ab-2eb482d8dd31",
+        "estimated_micros": 4020,
+        "error_code": ""
+      },
+      {
+        "id": "3c2ab425-9378-46dc-bb5a-44202d88340a",
+        "created": "2026-11-06T17:52:26.861Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 429,
+        "output_tokens": 63,
+        "request_id": "chatcmpl-e281cfd9-29b1-9d05-aab4-8c0829eb8256",
+        "estimated_micros": 1173,
+        "error_code": ""
+      },
+      {
+        "id": "96c3f02d-bfe2-4c29-8d28-c0e7a48c0d7f",
+        "created": "2026-11-06T17:52:28.398Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 101,
+        "output_tokens": 2,
+        "request_id": "chatcmpl-435b8c51-f4ac-99a7-b2d2-f12f810df51d",
+        "estimated_micros": 212,
+        "error_code": ""
+      },
+      {
+        "id": "aea10e11-6b1d-4351-9c15-e93136d5579f",
+        "created": "2026-11-06T17:53:56.834Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 847,
+        "output_tokens": 423,
+        "request_id": "chatcmpl-9e9b0fac-ac87-9355-a5f4-1deaa3464287",
+        "estimated_micros": 3809,
+        "error_code": ""
+      },
+      {
+        "id": "052688ed-fd6c-4bfe-b1b8-afa3d53b40fd",
+        "created": "2026-11-06T17:54:03.826Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1039,
+        "output_tokens": 151,
+        "request_id": "chatcmpl-7e598474-f784-98cc-bd3c-34fda747b0d0",
+        "estimated_micros": 2833,
+        "error_code": ""
+      },
+      {
+        "id": "93cdfa15-469b-468a-b6c6-9518b78b27f9",
+        "created": "2026-11-06T17:54:07.267Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 867,
+        "output_tokens": 43,
+        "request_id": "chatcmpl-d0f2bfdd-1d34-999d-b9c8-39ee178c82e7",
+        "estimated_micros": 1949,
+        "error_code": ""
+      },
+      {
+        "id": "52581b2b-2324-4718-9e9e-3895a15df5b3",
+        "created": "2026-11-06T17:54:08.643Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 887,
+        "output_tokens": 36,
+        "request_id": "chatcmpl-5cf12458-3360-9435-ba69-b1aa67753aa7",
+        "estimated_micros": 1954,
+        "error_code": ""
+      },
+      {
+        "id": "e04b8ca8-6cc8-412d-b686-c001690b2b82",
+        "created": "2026-11-06T17:54:12.493Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 706,
+        "output_tokens": 35,
+        "request_id": "chatcmpl-ab2deab1-1355-946b-ae18-0268276497eb",
+        "estimated_micros": 1587,
+        "error_code": ""
+      },
+      {
+        "id": "cd4ff56c-e9fb-4a29-b93e-2e7eccf21615",
+        "created": "2026-11-06T17:54:13.824Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 738,
+        "output_tokens": 29,
+        "request_id": "chatcmpl-5041bfcc-8687-9d2b-af14-83c3da2c50f8",
+        "estimated_micros": 1621,
+        "error_code": ""
+      },
+      {
+        "id": "deb7fc1e-20cc-4c7a-86dc-4d5814ea6605",
+        "created": "2026-11-06T18:05:39.519Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 943,
+        "output_tokens": 50,
+        "request_id": "chatcmpl-ed48680e-90c7-9e91-a515-40d2f77f5694",
+        "estimated_micros": 2136,
+        "error_code": ""
+      },
+      {
+        "id": "1657cc88-6f40-4c0c-a4ec-f311c7e8d0de",
+        "created": "2026-11-06T18:05:41.682Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 981,
+        "output_tokens": 63,
+        "request_id": "chatcmpl-772fb03b-6425-932a-9739-947ed4d20262",
+        "estimated_micros": 2277,
+        "error_code": ""
+      },
+      {
+        "id": "42562aa6-1f05-4380-b726-9d494adf24b7",
+        "created": "2026-11-06T18:05:43.480Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 962,
+        "output_tokens": 49,
+        "request_id": "chatcmpl-240b70e0-97c5-94d1-8b99-c6722e727f93",
+        "estimated_micros": 2169,
+        "error_code": ""
+      },
+      {
+        "id": "3b4a7d49-596e-433c-9f5d-6de47aa9a73d",
+        "created": "2026-11-06T18:05:44.836Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 968,
+        "output_tokens": 494,
+        "request_id": "chatcmpl-3898a61c-0fe7-9776-9e78-c26a79d57229",
+        "estimated_micros": 4406,
+        "error_code": ""
+      },
+      {
+        "id": "c1101e76-11d4-437d-a850-a0bcd470b5a4",
+        "created": "2026-11-06T18:05:55.355Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1006,
+        "output_tokens": 385,
+        "request_id": "chatcmpl-d201b38a-43ba-9bb0-82c7-5bf97252fea1",
+        "estimated_micros": 3937,
+        "error_code": ""
+      },
+      {
+        "id": "d71fc428-f9be-40f8-aa95-fefc168ddba5",
+        "created": "2026-11-06T18:06:03.693Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 987,
+        "output_tokens": 383,
+        "request_id": "chatcmpl-f2de96b7-3fd2-9d23-922f-e9a6079efdd9",
+        "estimated_micros": 3889,
+        "error_code": ""
+      },
+      {
+        "id": "b6492a52-c3e3-4bde-ac7a-214902cc9f32",
+        "created": "2026-11-06T18:09:59.058Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 991,
+        "output_tokens": 24,
+        "request_id": "chatcmpl-3762e763-dfa1-9844-836b-4077dfaf6648",
+        "estimated_micros": 2102,
+        "error_code": ""
+      },
+      {
+        "id": "9f4ba0cd-0fb4-417a-bf13-cd311e6e5202",
+        "created": "2026-11-06T18:10:00.983Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 986,
+        "output_tokens": 24,
+        "request_id": "chatcmpl-c727f026-7bea-9a62-82b6-7512f1a79e86",
+        "estimated_micros": 2092,
+        "error_code": ""
+      },
+      {
+        "id": "577cf1e6-5bdc-4f5d-a51f-0e169be1277a",
+        "created": "2026-11-06T18:10:02.091Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 967,
+        "output_tokens": 16,
+        "request_id": "chatcmpl-9b3f19e5-5cbc-9bb6-85d5-650e6f070859",
+        "estimated_micros": 2014,
+        "error_code": ""
+      },
+      {
+        "id": "c4c32019-5087-4515-b7b0-950ab375c9ca",
+        "created": "2026-11-06T18:10:03.071Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1016,
+        "output_tokens": 101,
+        "request_id": "chatcmpl-425d9950-0837-925d-a4e5-c4258bd2f609",
+        "estimated_micros": 2537,
+        "error_code": ""
+      },
+      {
+        "id": "bab575e2-11df-429e-9d5f-c51d93d8790a",
+        "created": "2026-11-06T18:10:05.219Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 1011,
+        "output_tokens": 101,
+        "request_id": "chatcmpl-16ff15b9-2540-9129-97b6-6163917826fc",
+        "estimated_micros": 2527,
+        "error_code": ""
+      },
+      {
+        "id": "bb3b1afb-4b78-42c6-81eb-0d346690a90b",
+        "created": "2026-11-06T18:10:07.245Z",
+        "reserved_micros": 250000,
+        "status": "completed",
+        "input_tokens": 992,
+        "output_tokens": 75,
+        "request_id": "chatcmpl-237dd829-74b2-9b99-9275-4dc5006a8524",
+        "estimated_micros": 2359,
+        "error_code": ""
+      }
+    ]
+  },
+  "thisRound": {
+    "calls": 6,
+    "reservedCny": 1.5,
+    "inputTokens": 5963,
+    "outputTokens": 341,
+    "estimatedCny": 0.0056911000000000045
+  },
+  "automaticPass": false
+}

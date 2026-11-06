@@ -192,4 +192,5 @@ test('invalid settings and inherited property names cannot become pets or user p
   assert.equal((await f.chat(alice.cookie, '你好', { pet: ['nuomi'] })).status, 400);
   const input = { ...alice.body.space, settings: { ...alice.body.space.settings } }; delete input.settings.timezone;
   assert.equal((await f.call('/api/space', { method: 'PUT', cookie: alice.cookie, body: input })).status, 400);
+  assert.equal((await f.chat(alice.cookie, '临时聊聊', { privateMode: true, history: [{ role: 'assistant', text: '旧消息', pet: '__proto__' }] })).status, 400);
 });

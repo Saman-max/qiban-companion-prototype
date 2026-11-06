@@ -82,6 +82,14 @@ QIBAN_RUN_LIVE_TESTS=1 node --use-env-proxy --env-file=.env scripts/live-test.mj
 
 仅补测上一轮失败项可设置 `QIBAN_RETRY_FAILED=1`，会保留已有成功证据，避免重复付费。未实现的摄像头、语音、推送与原生安装包在报告中单独标记，不冒充已通过。
 
+三角色同题对比（两题共六次，不自动重试）：
+
+```sh
+QIBAN_RUN_PERSONA_COMPARE=1 node --use-env-proxy --env-file=.env scripts/persona-compare.mjs
+```
+
+该脚本需先有同日期的真实功能报告作为基线，写出 `reports/日期-persona-comparison.md` 和 JSON。重复测试前保留已有报告到 `reports/history/`。调用次数默认24，允许在**同一账本、同一10元金额上限**内配置至36；本轮已这样配置，最多累计预留9元。保留失败与未知请求预留，不用新账本绕过预算。文本相似度只用于发现复读，人格效果需审阅原文。
+
 ## 更新与备份
 
 ```sh

@@ -168,7 +168,7 @@ sendMessage = async function realSendMessage(text) {
   if (replyPending) { toast('伙伴正在认真回复这一句，请稍等一下。'); return; }
   if (!Cloud.config.aiReady) { openCloudConnection(); return; }
   const privateMode = state.noMemory, pet = state.pet, name = currentPet().name, userId = Cloud.user.id, turn = ++Cloud.turn;
-  const history = state.messages.filter(m => ['user', 'assistant'].includes(m.role)).slice(-12).map(m => ({ role: m.role, text: m.text.slice(0, 4000) }));
+  const history = state.messages.filter(m => ['user', 'assistant'].includes(m.role)).slice(-12).map(m => ({ role: m.role, text: m.text.slice(0, 4000), pet: m.pet || Object.keys(window.PETS || {}).find(id => window.PETS[id].name === m.name) || null }));
   const pendingId = crypto.randomUUID();
   $('#chat-input').value = '';
   state.messages.push({ id: pendingId, role: 'user', text, name: '你', ephemeral: true });
@@ -177,7 +177,7 @@ sendMessage = async function realSendMessage(text) {
     await Cloud.flush();
     const result = await cloudRequest('/api/chat', 'POST', { requestId: pendingId, text, pet, privateMode, history: privateMode ? history : [] });
     if (Cloud.user?.id !== userId || turn !== Cloud.turn) return;
-    if (privateMode) state.messages.push({ role: 'assistant', text: result.reply, name, ephemeral: true });
+    if (privateMode) state.messages.push({ role: 'assistant', text: result.reply, name, pet, ephemeral: true });
     else {
       state.messages = state.messages.filter(m => m.id !== pendingId);
       if (Cloud.dirty || Cloud.savePromise || result.revision < Cloud.revision) {
